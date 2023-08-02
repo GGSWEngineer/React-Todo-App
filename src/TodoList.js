@@ -8,10 +8,10 @@ import Divider from "@mui/material/Divider";
 import Todo from "./Todo";
 
 function TodoList({todos, removeTodo, toggleTodo, editTodo}) {
-  const displayTodos = todos.map((todo) => (
+  const displayTodos = todos.map((todo, i) => (
     <>
     <Todo key={todo.id} id={todo.id} task={todo.task} completed={todo.completed} removeTodo={removeTodo} toggleTodo={toggleTodo} editTodo={editTodo}/>
-    <Divider/>
+    {i < todos.length - 1 && <Divider/>}
     </>
   ));
   return (
