@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import useLocalStorageState from "./hooks/useLocalStorageState";
 import useTodoState from "./hooks/useTodoState";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
@@ -9,7 +10,15 @@ import TodoList from "./TodoList";
 import TodoForm from "./TodoForm";
 
 function TodoApp() {
-  const initialTodos = JSON.parse(window.localStorage.getItem("todos") || "[]");
+  const initialTodos = [{id: 1, task: "Pet a monkey", completed: false}];
+
+  const [mood, setMood] = useLocalStorageState("mood", "happy")
+
+  console.log(mood, setMood)
+
+  // const initialTodos = JSON.parse(window.localStorage.getItem("todos") || "[]");
+
+
 
   const { todos, addTodo, removeTodo, toggleTodo, editTodo } =
     useTodoState(initialTodos);
@@ -32,9 +41,6 @@ function TodoApp() {
   //   },
   // ];
 
-  useEffect(() => {
-    window.localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
 
   return (
     <Paper
@@ -65,6 +71,7 @@ function TodoApp() {
             toggleTodo={toggleTodo}
             editTodo={editTodo}
           />
+          <button onClick={() => setMood("angry")}>get angrty</button>
         </Grid>
       </Grid>
     </Paper>
