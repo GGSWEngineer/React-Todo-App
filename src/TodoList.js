@@ -14,11 +14,13 @@ function TodoList({todos, removeTodo, toggleTodo, editTodo}) {
     {i < todos.length - 1 && <Divider/>}
     </>
   ));
-  return (
+  if(todos.length) 
+    return (
     <Paper>
       <List>{displayTodos}</List>
     </Paper>
   );
+  return null
 }
 
 export default TodoList;
