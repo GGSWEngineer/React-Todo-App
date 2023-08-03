@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import useTodoState from "./hooks/useTodoState";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import AppBar from "@mui/material/AppBar";
@@ -6,11 +7,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Grid from "@mui/material/Grid";
 import TodoList from "./TodoList";
 import TodoForm from "./TodoForm";
-import { v4 as uuidv4 } from 'uuid';
-
 
 function TodoApp() {
-  const initialTodos = JSON.parse(window.localStorage.getItem("todos") || "[]")
+  const initialTodos = JSON.parse(window.localStorage.getItem("todos") || "[]");
+
+  const { todos, addTodo, removeTodo, toggleTodo, editTodo } =
+    useTodoState(initialTodos);
+
   // const initialTodos = [
   //   {
   //     id: 1,
@@ -29,27 +32,9 @@ function TodoApp() {
   //   },
   // ];
 
-  const [todos, setTodos] = useState(initialTodos);
-
   useEffect(() => {
-    window.localStorage.setItem("todos", JSON.stringify(todos))
-  }, [todos])
-
-  const addTodo = (newTodoText) => {
-    setTodos([...todos, {id: uuidv4(), task: newTodoText, completed: false}]);
-  }
-  const removeTodo = (todoId) => {
-    setTodos(todos.filter((todo) => todo.id !== todoId))
-  }
-
-  const toggleTodo = (todoId) => {
-    setTodos(todos.map((todo) => todo.id === todoId ? {...todo, completed: !todo.completed} : todo))
-  }
-
-  const editTodo = (todoId, newTask) => {
-    setTodos(todos.map((todo) => todo.id === todoId ? {...todo, task: newTask} : todo))
-  }
-
+    window.localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   return (
     <Paper
@@ -67,10 +52,19 @@ function TodoApp() {
           <Typography color="inherit">TODOS WITH HOOKS</Typography>
         </Toolbar>
       </AppBar>
-      <Grid container justify="center" style={{ marginTop: "1rem", backgroundColor: "red"}}>
+      <Grid
+        container
+        justify="center"
+        style={{ marginTop: "1rem", backgroundColor: "red" }}
+      >
         <Grid item xs={11} m={8} lg={4}>
           <TodoForm addTodo={addTodo} />
-          <TodoList todos={todos} removeTodo={removeTodo} toggleTodo={toggleTodo} editTodo={editTodo} />
+          <TodoList
+            todos={todos}
+            removeTodo={removeTodo}
+            toggleTodo={toggleTodo}
+            editTodo={editTodo}
+          />
         </Grid>
       </Grid>
     </Paper>

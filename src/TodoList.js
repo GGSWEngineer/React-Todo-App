@@ -1,16 +1,13 @@
 import React from "react";
-import TodoItem from "./Todo";
 import Paper from "@mui/material/Paper";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Todo from "./Todo";
 
 function TodoList({todos, removeTodo, toggleTodo, editTodo}) {
   const displayTodos = todos.map((todo, i) => (
     <>
-    <Todo key={todo.id} id={todo.id} task={todo.task} completed={todo.completed} removeTodo={removeTodo} toggleTodo={toggleTodo} editTodo={editTodo}/>
+    <Todo {...todo} key={todo.id} removeTodo={removeTodo} toggleTodo={toggleTodo} editTodo={editTodo}/>
     {i < todos.length - 1 && <Divider/>}
     </>
   ));
@@ -24,3 +21,6 @@ function TodoList({todos, removeTodo, toggleTodo, editTodo}) {
 }
 
 export default TodoList;
+
+
+// id={todo.id} task={todo.task} completed={todo.completed} in the displayTodos variable we are mapping over the todos in the intiail todos we dont have to put  id={todo.id} task={todo.task} completed={todo.completed} we can just put {..todos} and it will make the app work still
